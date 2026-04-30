@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Tutorías académicas de compañero a compañero — Matemáticas, Programación y Algoritmia." />
+  <title>Once | Tutorías Académicas</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Oswald', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+    }
+
+    /* ── Chalkboard background ── */
+    .chalk-bg {
+      background-color: rgba(15, 13, 13, 0.7);
+      background-image: url('background.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-blend-mode: multiply;
+    }
+
+    /* ── Subject cards ── */
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 1rem;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    html:not(.dark) .card {
+      background: rgba(255, 255, 255, 0.82);
+      border-color: rgba(0, 0, 0, 0.08);
+    }
+
+    .card-blue {
+      border-left: 5px solid #60a5fa;
+    }
+
+    .card-orange {
+      border-left: 5px solid #fb923c;
+    }
+
+    .card-green {
+      border-left: 5px solid #4ade80;
+    }
+
+    /* ── Chalk-style headline ── */
+    .chalk-text {
+      font-family: 'Oswald', sans-serif;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.4);
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Avatar ring ── */
+    .avatar-ring {
+      background: conic-gradient(from 0deg, #60a5fa, #4ade80, #fb923c, #60a5fa);
+      padding: 3px;
+      border-radius: 9999px;
+      animation: spin 8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ── Toggle ── */
+    #toggle-knob {
+      transition: transform .3s ease;
+    }
+
+    html.dark #toggle-knob {
+      transform: translateX(1.75rem);
+    }
+
+    html:not(.dark) #toggle-knob {
+      transform: translateX(0);
+    }
+
+    /* ── Fade-in ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── Bullet ── */
+    .chalk-bullet {
+      color: #60a5fa;
+      margin-right: 6px;
+    }
+
+    html:not(.dark) .chalk-bullet {
+      color: #2563eb;
+    }
+
+    /* ── CTA buttons ── */
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .75rem;
+      width: 100%;
+      padding: 1rem 1.5rem;
+      border-radius: 1rem;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      transition: transform .15s ease, box-shadow .15s ease;
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: scale(.97);
+    }
+
+    .btn-wa {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+    }
+
+    .btn-tg {
+      background: linear-gradient(135deg, #229ED9, #0a6da3);
+    }
+
+    .btn:hover {
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .4);
+      transform: translateY(-2px);
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(#60a5fa, #4ade80);
+      border-radius: 3px;
+    }
+
+    /* ── Step connector ── */
+    .step-line {
+      width: 2px;
+      height: 2rem;
+      background: rgba(255, 255, 255, .15);
+      margin: 0 auto;
+    }
+  </style>
+</head>
+
+<body class="chalk-bg min-h-screen text-white transition-colors duration-300">
+
+  <!-- ════════ HEADER ════════ -->
+  <header class="sticky top-0 z-50"
+    style="background:rgba(15,13,13,0.75);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.08);">
+    <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
+
+      <span class="font-mono text-sm font-semibold" style="color:#60a5fa;">
+        &lt;<span class="text-white">Once</span>.dev/&gt;
+      </span>
+
+
+    </div>
+  </header>
+
+  <main class="max-w-xl mx-auto px-4 pb-20">
+
+    <!-- ════════ HERO ════════ -->
+    <section class="fade-up pt-14 pb-12 flex flex-col items-center text-center">
+
+      <!-- Avatar -->
+      <div class="avatar-ring mb-6" style="display:inline-block;">
+        <img src="placeholder.jpg" alt="Foto de Once" class="w-24 h-24 rounded-full object-cover block"
+          style="background:#1e293b;"
+          onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 96 96%22><rect width=%2296%22 height=%2296%22 fill=%22%231e293b%22/><text x=%2248%22 y=%2264%22 font-size=%2248%22 text-anchor=%22middle%22 fill=%22%2360a5fa%22>👤</text></svg>'" />
+      </div>
+
+      <!-- Eyebrow -->
+      <p class="font-mono text-xs tracking-widest mb-3" style="color:#4ade80;">
+        &gt; Clases de compañero a compañero
+      </p>
+
+      <!-- Main title -->
+      <h1 class="chalk-text text-5xl sm:text-6xl font-bold text-white leading-tight mb-3">
+        ¡Hola! Soy <span style="color:#60a5fa;">Once</span> 👋
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="chalk-text text-2xl sm:text-3xl font-semibold mb-6 leading-snug" style="color:#fb923c;">
+        Domina la base de tu carrera.
+      </p>
+
+      <!-- Available badge -->
+      <a href="#contacto"
+        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all"
+        style="background:rgba(96,165,250,0.15);border:1px solid rgba(96,165,250,0.35);color:#93c5fd;">
+        <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse inline-block"></span>
+        Disponible para nuevas clases
+      </a>
+    </section>
+
+    <!-- ════════ SOBRE MÍ ════════ -->
+    <section class="fade-up mb-10">
+      <div class="card p-6">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+            style="background:rgba(167,139,250,0.18);">
+            <i class="fa-solid fa-user-graduate" style="color:#a78bfa;"></i>
+          </div>
+          <h2 class="chalk-text text-xl text-white">Sobre mí</h2>
+        </div>
+        <p class="text-sm leading-relaxed" style="color:rgba(255,255,255,0.8);">
+          Soy estudiante y <strong class="text-white">preparador auxiliar</strong> de
+          <span style="color:#60a5fa;font-weight:600;">Algoritmos y Estructuras de Datos</span>.
+          Me apasiona la programación a bajo nivel y la
+          <span style="color:#a78bfa;font-weight:600;">programación competitiva (ICPC)</span>.
+          Te ayudo a entender el <em>porqué</em> de las cosas, no solo a memorizar.
+        </p>
+        <!-- Tags -->
+        <div class="flex flex-wrap gap-2 mt-4">
+          <span class="font-mono text-xs px-3 py-1 rounded-full"
+            style="background:rgba(96,165,250,0.15);color:#93c5fd;border:1px solid rgba(96,165,250,0.25);">C /
+            C++</span>
+          <span class="font-mono text-xs px-3 py-1 rounded-full"
+            style="background:rgba(167,139,250,0.15);color:#c4b5fd;border:1px solid rgba(167,139,250,0.25);">ICPC</span>
+          <span class="font-mono text-xs px-3 py-1 rounded-full"
+            style="background:rgba(74,222,128,0.15);color:#86efac;border:1px solid rgba(74,222,128,0.25);">DSA</span>
+          <span class="font-mono text-xs px-3 py-1 rounded-full"
+            style="background:rgba(251,146,60,0.15);color:#fdba74;border:1px solid rgba(251,146,60,0.25);">Problem
+            Solving</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ MATERIAS ════════ -->
+    <section class="fade-up mb-10">
+      <h2 class="chalk-text text-3xl text-white text-center mb-1">¿Qué puedo enseñarte?</h2>
+      <p class="text-center text-sm mb-6" style="color:rgba(255,255,255,0.5);">Áreas donde te acompaño paso a paso.</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+        <!-- Matemáticas Base -->
+        <div class="card card-blue p-5">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+              style="background:rgba(96,165,250,0.2);">
+              <i class="fa-solid fa-square-root-variable" style="color:#60a5fa;font-size:1.1rem;"></i>
+            </div>
+            <h3 class="chalk-text text-lg" style="color:#93c5fd;">Cálculo y Álgebra</h3>
+          </div>
+          <ul class="space-y-2 text-sm" style="color:rgba(255,255,255,0.8);">
+            <li><span class="chalk-bullet">◆</span>Álgebra Lineal</li>
+            <li><span class="chalk-bullet">◆</span>Funciones y límites</li>
+            <li><span class="chalk-bullet">◆</span>Derivadas e integrales</li>
+            <li><span class="chalk-bullet">◆</span>Continuidad</li>
+          </ul>
+
+        </div>
+
+        <!-- Programación -->
+        <div class="card card-orange p-5">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+              style="background:rgba(251,146,60,0.2);">
+              <i class="fa-solid fa-terminal" style="color:#fb923c;font-size:1.1rem;"></i>
+            </div>
+            <h3 class="chalk-text text-lg" style="color:#fdba74;">Programación</h3>
+          </div>
+          <ul class="space-y-2 text-sm" style="color:rgba(255,255,255,0.8);">
+            <li><span style="color:#fb923c;" class="mr-1.5">◆</span>C, C++ y Python</li>
+            <li><span style="color:#fb923c;" class="mr-1.5">◆</span>Algoritmia y resolución de problemas</li>
+            <li><span style="color:#fb923c;" class="mr-1.5">◆</span>Programación Orientada a Objetos</li>
+            <li><span style="color:#fb923c;" class="mr-1.5">◆</span>Estructuras de datos avanzadas</li>
+          </ul>
+
+        </div>
+
+        <!-- Matemáticas Discretas -->
+        <div class="card card-green p-5 sm:col-span-2">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
+              style="background:rgba(74,222,128,0.2);">
+              <i class="fa-solid fa-diagram-project" style="color:#4ade80;font-size:1.1rem;"></i>
+            </div>
+            <h3 class="chalk-text text-lg" style="color:#86efac;">Mat. Discretas</h3>
+          </div>
+          <div class="grid grid-cols-2 gap-x-6">
+            <ul class="space-y-2 text-sm" style="color:rgba(255,255,255,0.8);">
+              <li><span style="color:#4ade80;" class="mr-1.5">◆</span>Lógica y conjuntos</li>
+              <li><span style="color:#4ade80;" class="mr-1.5">◆</span>Grafos y algoritmos</li>
+            </ul>
+            <ul class="space-y-2 text-sm" style="color:rgba(255,255,255,0.8);">
+              <li><span style="color:#4ade80;" class="mr-1.5">◆</span>Inducción matemática</li>
+              <li><span style="color:#4ade80;" class="mr-1.5">◆</span>Estructuras algebraicas</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ════════ CÓMO FUNCIONA ════════ -->
+    <section class="fade-up mb-10">
+      <div class="card p-6">
+        <h2 class="chalk-text text-2xl text-white text-center mb-6">¿Cómo funciona?</h2>
+        <div class="flex flex-col items-center gap-0">
+
+          <div class="flex items-start gap-4 w-full">
+            <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm"
+              style="background:rgba(96,165,250,0.2);color:#60a5fa;">1</div>
+            <div class="pt-1">
+              <p class="font-semibold text-white text-sm">Escríbeme</p>
+              <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.5);">Cuéntame tu materia y en qué estás
+                trancado.</p>
+            </div>
+          </div>
+
+          <div class="step-line my-2"></div>
+
+          <div class="flex items-start gap-4 w-full">
+            <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm"
+              style="background:rgba(167,139,250,0.2);color:#a78bfa;">2</div>
+            <div class="pt-1">
+              <p class="font-semibold text-white text-sm">Cuadramos el horario</p>
+              <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.5);">Sesión personalizada, virtual o presencial.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-line my-2"></div>
+
+          <div class="flex items-start gap-4 w-full">
+            <div class="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm"
+              style="background:rgba(74,222,128,0.2);color:#4ade80;">3</div>
+            <div class="pt-1">
+              <p class="font-semibold text-white text-sm">Comenzamos la clase</p>
+              <p class="text-xs mt-0.5" style="color:rgba(255,255,255,0.5);">Nos enfocamos en el razonamiento y la
+                práctica continua.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════ CONTACTO ════════ -->
+    <section id="contacto" class="fade-up mb-10">
+      <div class="flex flex-col gap-4">
+        <a id="btn-whatsapp" href="https://wa.me/TUNUMERO" target="_blank" rel="noopener" class="btn btn-wa"
+          aria-label="WhatsApp">
+          <i class="fa-brands fa-whatsapp text-2xl"></i>
+          Escríbeme por WhatsApp
+          <i class="fa-solid fa-arrow-right text-sm ml-auto opacity-70"></i>
+        </a>
+        <a id="btn-telegram" href="https://t.me/TUUUSARIO" target="_blank" rel="noopener" class="btn btn-tg"
+          aria-label="Telegram">
+          <i class="fa-brands fa-telegram text-2xl"></i>
+          Contáctame por Telegram
+          <i class="fa-solid fa-arrow-right text-sm ml-auto opacity-70"></i>
+        </a>
+      </div>
+
+      <p class="text-center text-xs mt-4 flex items-center justify-center gap-1.5"
+        style="color:rgba(255,255,255,0.35);">
+        <i class="fa-solid fa-shield-halved" style="color:#4ade80;"></i>
+        Sin compromisos · Respondo en menos de 24 h
+      </p>
+    </section>
+
+  </main>
+
+  <!-- ════════ FOOTER ════════ -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.08);" class="py-6 text-center">
+    <p class="font-mono text-xs" style="color:rgba(255,255,255,0.35);">
+      Hecho con <span style="color:#ef4444;">❤</span> código y café por
+      <span style="color:#60a5fa;font-weight:600;">Once</span> | 2026
+    </p>
+    <p class="font-mono text-xs mt-1" style="color:rgba(255,255,255,0.2);">
+      &lt;Built with HTML, Tailwind &amp; ☕ /&gt;
+    </p>
+  </footer>
+
+
+
+  <script>
+      (function () {
+
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+          a.addEventListener('click', function (e) {
+            e.preventDefault();
+            var t = document.querySelector(this.getAttribute('href'));
+            if (t) t.scrollIntoView({ behavior: 'smooth' });
+          });
+        });
+
+        // Fade-in on scroll
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-up').forEach(function (el) {
+          observer.observe(el);
+        });
+      })();
+  </script>
+</body>
+
+</html>
